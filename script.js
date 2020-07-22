@@ -28,54 +28,55 @@ jQuery(document).ready(function(){
         console.log('click b1');
         color = 'red';
 
-        // Это рабочий метод нахождения элемента и его родителя
-        /*console.log($('#div_item .i_checkbox_item:checked'));
-        $('#div_item .i_checkbox_item:checked').map((index,item,)=>{
-            const test = $(`#${item.id}`).parent().parent()
-            console.log(test);
-        })*/
-
-        /*listItem.map((el) => {
-            console.log('list map @@@@@@@@  el id: ' + el.id + " el.title : " + el.title +  "  el.status: " + el.status);
-        })*/
-
-        listItem.map((el) => {
-            if(el.status){
-                let id = el.id;
-                /*d_checkbox_item_"
-                d_item_name_"*/
-            }
-        })
-
-
+        updateColor(color);
 
     })
     $('#b_orange').on('click', function () {
         console.log('click b2');
         color = 'orange';
-       // console.log('@@@@@@@222222123123123123123123213            ')
+        updateColor(color);
+
+        // console.log('@@@@@@@222222123123123123123123213            ')
         //getChecked('deeppink')
     })
     $('#b_blueviolet').on('click', function () {
         console.log('click b3');
         color = 'blueviolet';
+        updateColor(color);
         //getChecked('blueviolet')
     })
     $('#b_blue').on('click', function () {
         console.log('click b4');
         color = 'blue';
+        updateColor(color);
         //getChecked('blue')
     })
     $('#b_green').on('click', function () {
         console.log('click b5');
         color = 'green';
+        updateColor(color);
        // getChecked('green')
     })
     $('#b_yellow').on('click', function () {
         console.log('click b6');
         color = 'yellow';
+        updateColor(color);
         //getChecked('yellow')
     })
+
+    const updateColor = (color) => {
+        listItem.map((el) => {
+            if(el.status){
+                let id = el.id;
+
+                let itemCheckbox = '#d_checkbox_item_' + id;
+                let itemName = '#d_item_name_' + id;
+
+                $(itemCheckbox).css('background-color', color);
+                $(itemName).css('background-color', color);
+            }
+        })
+    }
 
 
     // add method call newItem()
@@ -147,7 +148,6 @@ jQuery(document).ready(function(){
         // или брать id и сравнивать с массивом текущих item, и при совпадении менять статус
         //затем при нажатии на кнопку цвета я беру массив текущих элементов и у тех, у которых статус true я присваиваю бэкгрунд колор в цвет выбранной кнопки
 
-
         $('#checkbox_' + item.id).on('click',()=>{
             console.log('onclick FROM createItem      id: ' + item.id + ', title: ' + item.title + ', status: ' + item.status);
 
@@ -208,6 +208,12 @@ jQuery(document).ready(function(){
 
 
 
+    // Это рабочий метод нахождения элемента и его родителя
+    /*console.log($('#div_item .i_checkbox_item:checked'));
+    $('#div_item .i_checkbox_item:checked').map((index,item,)=>{
+        const test = $(`#${item.id}`).parent().parent()
+        console.log(test);
+    })*/
 
 
 
@@ -218,36 +224,36 @@ jQuery(document).ready(function(){
 
 
 
-/*    var count = 0;
-    var checkColor = '';
-    var arrCheckbox = [];  //массив содержащий имена всех чекбоксов
+    /*    var count = 0;
+        var checkColor = '';
+        var arrCheckbox = [];  //массив содержащий имена всех чекбоксов
 
-   /!* const arr = ["red","pink", "green","yellow",
-        "blue", "orange"];*!/
+       /!* const arr = ["red","pink", "green","yellow",
+            "blue", "orange"];*!/
 
-    // вызов функции возвращает рандомный цвет типа строки
-    function getRandomColor() {
-        let numRand = Math.round(Math.random() * (arr.length-1));
-        return arr[numRand];
-    }
-
-    // цикл добавляет 6 кнопок выбора цвета
-    for(let i = 1; i <= 6; i++){
-        $('#color_picker').append('<button id="b_' + i+'" class="b_color"></button>');
-    }
-
-    function getChecked(currentColor){
-        for(let i = 0; i < arrCheckbox.length; i++){
-            let element = document.getElementById(arrCheckbox[i]);
-
-            if(element.checked){
-               let checkbox = '#d_checkbox_item_' + i;
-               let itemName = '#d_item_name_'+ i;
-               $(checkbox).css('background-color', currentColor);
-               $(itemName).css('background-color', currentColor);
-            }
+        // вызов функции возвращает рандомный цвет типа строки
+        function getRandomColor() {
+            let numRand = Math.round(Math.random() * (arr.length-1));
+            return arr[numRand];
         }
-    }*/
+
+        // цикл добавляет 6 кнопок выбора цвета
+        for(let i = 1; i <= 6; i++){
+            $('#color_picker').append('<button id="b_' + i+'" class="b_color"></button>');
+        }
+
+        function getChecked(currentColor){
+            for(let i = 0; i < arrCheckbox.length; i++){
+                let element = document.getElementById(arrCheckbox[i]);
+
+                if(element.checked){
+                   let checkbox = '#d_checkbox_item_' + i;
+                   let itemName = '#d_item_name_'+ i;
+                   $(checkbox).css('background-color', currentColor);
+                   $(itemName).css('background-color', currentColor);
+                }
+            }
+        }*/
 
     /*$('#b_1').on('click', function () {
         checkColor = 'red';
