@@ -1,51 +1,63 @@
 
 jQuery(document).ready(function(){
-    const arr = ["red","orange","blueviolet","blue", "green","yellow"];
-    const listItem = [];
-    var count = 1;
 
-    //  здесь хранится переменная цвета
+    const arr = ["red","orange","blueviolet","blue", "green","yellow"];
+
+    //create color picker
+    const $color_picker = $('#color_picker');
+    for(let i = 0; i < arr.length; i++){
+        $color_picker.append('<button id = "b_' + arr[i] + '" class = "b_color"></button>');
+    }
+
+    var count = 1;  //counter
+    const listItem = [];  //saved todoItem objects
+
+    const $document = $(document);
+    const $input_item = $('#input_item');
+    const $b_color = $('.b_color');
+
+    const $b_red = $('#b_red');
+    const $b_orange = $('#b_orange');
+    const $b_blueviolet = $('#b_blueviolet');
+    const $b_blue = $('#b_blue');
+    const $b_green= $('#b_green');
+    const $b_yellow = $('#b_yellow');
+    const $b_add_item = $('#b_add_item');
+    const $div_item = $('#div_item');
+
     let color = "";
 
-    // вызов функции возвращает рандомный цвет типа строка из массива цветов
     function getRandomColor() {
         let numRand = Math.round(Math.random() * (arr.length-1));
         return arr[numRand];
     }
-    for(let i = 0; i < arr.length; i++){
-        $('#color_picker').append('<button id="b_' + arr[i] + '" class="b_color"></button>');
-    }
 
+    $('.b_color').on('click',function () {
+        console.log('click class b_color')
+        let clickId = $(this).attr('id');
 
-    $('#b_red').on('click', function () {
-        console.log('click b1');
-        color = 'red';
-        updateColor(color);
-
-    })
-    $('#b_orange').on('click', function () {
-        console.log('click b2');
-        color = 'orange';
-        updateColor(color);
-    })
-    $('#b_blueviolet').on('click', function () {
-        console.log('click b3');
-        color = 'blueviolet';
-        updateColor(color);
-    })
-    $('#b_blue').on('click', function () {
-        console.log('click b4');
-        color = 'blue';
-        updateColor(color);
-    })
-    $('#b_green').on('click', function () {
-        console.log('click b5');
-        color = 'green';
-        updateColor(color);
-    })
-    $('#b_yellow').on('click', function () {
-        console.log('click b6');
-        color = 'yellow';
+        switch (clickId) {
+            case 'b_red':
+                color = 'red';
+                break;
+            case 'b_orange':
+                color = 'orange';
+                break;
+            case 'b_blueviolet':
+                color = 'blueviolet';
+                break;
+            case 'b_blue':
+                color = 'blue';
+                break;
+            case 'b_green':
+                color = 'green';
+                break;
+            case 'b_yellow':
+                color = 'yellow';
+                break;
+            default:
+                break;
+        }
         updateColor(color);
     })
 
@@ -64,48 +76,41 @@ jQuery(document).ready(function(){
     }
 
     // add method call newItem()
-    $(document).keydown((ev)  => {
+    $document.keydown((ev)  => {
         if(ev.keyCode === 13){
-            //console.log('enter click');
-            let str = '';
-
-            $('#input_item').val(function (index, x) {  //получаем текст из инпут
-                str = x.trim();
+            $input_item.val(function (index, x) {  //получаем текст из инпут
+                newItem(count, x, color);
             })
-            if(str !== ''){
-               newItem(count, str, color);
-            }
         }
     })
 
  // ВЫТАЩИТЬ ИЗ keydown и b_add обработку и перенести ее в один метод
 
-    $('#b_add_item').on('click',function () {
-        let str = '';
-        $('#input_item').val(function (index, x) {  //получаем текст из инпут
-            str = x.trim();
+    $b_add_item.on('click',function () {
+        $input_item.val(function (index, text) {  //получаем текст из инпут
+            newItem(count, text, color);
         })
-        if(str !== ''){  //проверка на пустую строку или пробелы
-            newItem(count, str, color);
-        }
     });
 
     //creating a new obj(item) with properties
-    const newItem = (number, textItem, colorItem) => {
+    const newItem = (number, text, colorItem) => {
+        let textItem = text.trim();
 
+        if(textItem === ''){
+            return;
+        }
         let color = colorItem === '' ? getRandomColor() : colorItem;
 
         if(color === ''){
             color = getRandomColor();
         }
-        const item = {  //возможно не будет работать из-за const
+        const item = {
             id: number,
             title: textItem,
             status: false,
             color: color
         }
         listItem.push(item);
-
         createItem(item);
     }
 
@@ -118,32 +123,21 @@ jQuery(document).ready(function(){
     }
 
     const createItem = (item) => {
-        $('#div_item').append(renderItem(item));
+        $div_item.append(renderItem(item));
 
         $('#checkbox_' + item.id).on('click',()=>{
-            console.log('onclick FROM createItem      id: ' + item.id + ', title: ' + item.title + ', status: ' + item.status);
-            //console.log('list item test = ' + listItem)
-            console.log('%%%  id push = ' + item.id);
             updateStatus(item.id);
         })
         count++;
+        color = '';
     }
    const renderItem = (item) => {
-      // console.log('renderItem');
         return "<div id = '" + item.id + "' class = 'd_new_item'>" +
             "<div id ='d_checkbox_item_" + item.id  + "' class = 'd_checkbox_item' style = 'background-color: " + item.color  + "'>" +
             "<input id = 'checkbox_" + item.id  + "' class = 'i_checkbox_item' type = 'checkbox'></div>" +
             "<div id = 'd_item_name_" + item.id  + "' class = 'd_item_name' style = 'background-color: " + item.color + "'>" + item.title + "</div>" +
             "</div>"
     }
-
-    // Это рабочий метод нахождения элемента и его родителя
-    /*console.log($('#div_item .i_checkbox_item:checked'));
-    $('#div_item .i_checkbox_item:checked').map((index,item,)=>{
-        const test = $(`#${item.id}`).parent().parent()
-        console.log(test);
-    })*/
-
 });
 
 
