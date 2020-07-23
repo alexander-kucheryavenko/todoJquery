@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
     const $b_color = $('.b_color');
     const $b_add_item = $('#b_add_item');
     const $div_item = $('#div_item');
-
+    const $div = $("<div>");
     let color = "";
 
     function getRandomColor() {
@@ -86,7 +86,7 @@ jQuery(document).ready(function () {
             return;
         }
         //$("div.someClass").text(textItem);
-        let textItem = $("<div>").text(textItemTest).html();
+        let textItem = $div.text(textItemTest).html();
 
         let color = colorItem === '' ? getRandomColor() : colorItem;
 
