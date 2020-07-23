@@ -9,8 +9,6 @@ jQuery(document).ready(function () {
 
     var count = 1;  //counter
     const listItem = [];  //saved todoItem objects
-
-    const $document = $(document);
     const $input_item = $('#input_item');
     const $b_color = $('.b_color');
     const $b_add_item = $('#b_add_item');
@@ -65,8 +63,7 @@ jQuery(document).ready(function () {
         })
     }
 
-    // add method call newItem()
-    $document.keydown((ev) => {
+    $input_item.keydown((ev) => {
         if (ev.keyCode === 13) {
             $input_item.val(function (index, x) {
                 newItem(count, x, color);
@@ -82,11 +79,15 @@ jQuery(document).ready(function () {
 
     //creating a new obj(item) with properties
     const newItem = (number, text, colorItem) => {
-        let textItem = text.trim();
 
-        if (textItem === '') {
+        let textItemTest = text.trim();
+
+        if (textItemTest === '') {
             return;
         }
+        //$("div.someClass").text(textItem);
+        let textItem = $("<div>").text(textItemTest).html();
+
         let color = colorItem === '' ? getRandomColor() : colorItem;
 
         if (color === '') {
@@ -127,6 +128,3 @@ jQuery(document).ready(function () {
             "</div>"
     }
 });
-
-
-
