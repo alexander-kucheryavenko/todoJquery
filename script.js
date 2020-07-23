@@ -1,11 +1,9 @@
-
-jQuery(document).ready(function(){
-
-    const arr = ["red","orange","blueviolet","blue", "green","yellow"];
+jQuery(document).ready(function () {
+    const arr = ["red", "orange", "blueviolet", "blue", "green", "yellow"];
 
     //create color picker
     const $color_picker = $('#color_picker');
-    for(let i = 0; i < arr.length; i++){
+    for (let i = 0; i < arr.length; i++) {
         $color_picker.append('<button id = "b_' + arr[i] + '" class = "b_color"></button>');
     }
 
@@ -15,25 +13,17 @@ jQuery(document).ready(function(){
     const $document = $(document);
     const $input_item = $('#input_item');
     const $b_color = $('.b_color');
-
-    const $b_red = $('#b_red');
-    const $b_orange = $('#b_orange');
-    const $b_blueviolet = $('#b_blueviolet');
-    const $b_blue = $('#b_blue');
-    const $b_green= $('#b_green');
-    const $b_yellow = $('#b_yellow');
     const $b_add_item = $('#b_add_item');
     const $div_item = $('#div_item');
 
     let color = "";
 
     function getRandomColor() {
-        let numRand = Math.round(Math.random() * (arr.length-1));
+        let numRand = Math.round(Math.random() * (arr.length - 1));
         return arr[numRand];
     }
 
-    $('.b_color').on('click',function () {
-        console.log('click class b_color')
+    $b_color.on('click', function () {
         let clickId = $(this).attr('id');
 
         switch (clickId) {
@@ -63,7 +53,7 @@ jQuery(document).ready(function(){
 
     const updateColor = (color) => {
         listItem.map((el) => {
-            if(el.status){
+            if (el.status) {
                 let id = el.id;
 
                 let itemCheckbox = '#d_checkbox_item_' + id;
@@ -76,18 +66,16 @@ jQuery(document).ready(function(){
     }
 
     // add method call newItem()
-    $document.keydown((ev)  => {
-        if(ev.keyCode === 13){
-            $input_item.val(function (index, x) {  //получаем текст из инпут
+    $document.keydown((ev) => {
+        if (ev.keyCode === 13) {
+            $input_item.val(function (index, x) {
                 newItem(count, x, color);
             })
         }
     })
 
- // ВЫТАЩИТЬ ИЗ keydown и b_add обработку и перенести ее в один метод
-
-    $b_add_item.on('click',function () {
-        $input_item.val(function (index, text) {  //получаем текст из инпут
+    $b_add_item.on('click', function () {
+        $input_item.val(function (index, text) {
             newItem(count, text, color);
         })
     });
@@ -96,12 +84,12 @@ jQuery(document).ready(function(){
     const newItem = (number, text, colorItem) => {
         let textItem = text.trim();
 
-        if(textItem === ''){
+        if (textItem === '') {
             return;
         }
         let color = colorItem === '' ? getRandomColor() : colorItem;
 
-        if(color === ''){
+        if (color === '') {
             color = getRandomColor();
         }
         const item = {
@@ -114,9 +102,10 @@ jQuery(document).ready(function(){
         createItem(item);
     }
 
+    //called when the checkbox changes
     const updateStatus = (id) => {
         listItem.map((el) => {
-            if(el.id === id){
+            if (el.id === id) {
                 el.status = !el.status;
             }
         })
@@ -124,18 +113,17 @@ jQuery(document).ready(function(){
 
     const createItem = (item) => {
         $div_item.append(renderItem(item));
-
-        $('#checkbox_' + item.id).on('click',()=>{
+        $('#checkbox_' + item.id).on('click', () => {
             updateStatus(item.id);
         })
         count++;
         color = '';
     }
-   const renderItem = (item) => {
+    const renderItem = (item) => {
         return "<div id = '" + item.id + "' class = 'd_new_item'>" +
-            "<div id ='d_checkbox_item_" + item.id  + "' class = 'd_checkbox_item' style = 'background-color: " + item.color  + "'>" +
-            "<input id = 'checkbox_" + item.id  + "' class = 'i_checkbox_item' type = 'checkbox'></div>" +
-            "<div id = 'd_item_name_" + item.id  + "' class = 'd_item_name' style = 'background-color: " + item.color + "'>" + item.title + "</div>" +
+            "<div id ='d_checkbox_item_" + item.id + "' class = 'd_checkbox_item' style = 'background-color: " + item.color + "'>" +
+            "<input id = 'checkbox_" + item.id + "' class = 'i_checkbox_item' type = 'checkbox'></div>" +
+            "<div id = 'd_item_name_" + item.id + "' class = 'd_item_name' style = 'background-color: " + item.color + "'>" + item.title + "</div>" +
             "</div>"
     }
 });
