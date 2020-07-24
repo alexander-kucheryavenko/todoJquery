@@ -4,7 +4,7 @@ jQuery(document).ready(function () {
     //create color picker
     const $color_picker = $('#color_picker');
     for (let i = 0; i < arr.length; i++) {
-        $color_picker.append('<button id = "b_' + arr[i] + '" class = "b_color"></button>');
+        $color_picker.append('<button data-color="' + arr[i] + '" id = "b_' + arr[i] + '" class = "b_color"></button>');
     }
 
     var count = 1;  //counter
